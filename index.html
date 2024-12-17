@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment for Nifty & Bank Nifty</title>
+</head>
+<body>
+    <h1>Buy Nifty or Bank Nifty Access</h1>
+    <button id="buyNifty">Buy Nifty</button>
+    <button id="buyBankNifty">Buy Bank Nifty</button>
+
+    <div id="paymentSuccessMessage" style="display: none;">
+        <p id="successMessage"></p>
+        <button id="copyLinkButton" style="display: none;">Copy Link</button>
+        <button id="openLinkButton" style="display: none;">Open URL in New Tab</button>
+    </div>
+
+    <!-- Razorpay Checkout Script -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        function initiatePayment(product) {
+            var options = {
+                "key": "rzp_test_s148tlUjjOyR7e", // Your API Key
+                "amount": product === "nifty" ? 10000 : 15000, // Amount in paisa (₹100 = 10000)
+                "currency": "INR",
+                "name": "Tony FX SM",
+                "description": `Purchase ${product} access`,
+                "handler": function (response) {
+                    // Hide the buttons and show the success message
+                    document.getElementById('buyNifty').style.display = 'none';
+                    document.getElementById('buyBankNifty').style.display = 'none';
+                    document.getElementById('paymentSuccessMessage').style.display = 'block';
+
+                    let url = product === "nifty" ? "https://example.com/nifty" : "https://in.tradingview.com/chart/BANKNIFTY/l6X7LkQu-BANKNIFTY-INSTITUTIONAL-LEVELS-FOR-17-12-2024/";
+                    document.getElementById('successMessage').textContent = `Payment Successful! Your URL: ${url}`;
+
+                    // Show the copy and open link buttons
+                    document.getElementById('copyLinkButton').style.display = 'inline-block';
+                    document.getElementById('openLinkButton').style.display = 'inline-block';
+
+                    // Copy the URL to clipboard
+                    document.getElementById('copyLinkButton').onclick = function() {
+                        navigator.clipboard.writeText(url).then(function() {
+                            alert("URL copied to clipboard!");
+                        }, function(err) {
+                            alert("Failed to copy URL");
+                        });
+                    };
+
+                    // Open the URL in a new tab
+                    document.getElementById('openLinkButton').onclick = function() {
+                        window.open(url, '_blank');
+                    };
+                },
+                "theme": {
+                    "color": "#3399cc"
+                }
+            };
+            var rzp = new Razorpay(options);
+            rzp.open();
+        }
+
+        document.getElementById('buyNifty').onclick = function() {
+            initiatePayment("nifty");
+        };
+
+        document.getElementById('buyBankNifty').onclick = function() {
+            initiatePayment("banknifty");
+        };
+    </script>
+</body>
+</html>
