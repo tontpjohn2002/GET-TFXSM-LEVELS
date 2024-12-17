@@ -22,7 +22,7 @@
         function initiatePayment(product) {
             var options = {
                 "key": "rzp_test_s148tlUjjOyR7e", // Your API Key
-                "amount": product === "nifty" ? 10000 : 15000, // Amount in paisa (₹100 = 10000)
+                "amount": product === "nifty" ? 10000 : 10000, // Amount in paisa (₹100 = 10000)
                 "currency": "INR",
                 "name": "Tony FX SM",
                 "description": `Purchase ${product} access`,
@@ -32,7 +32,7 @@
                     document.getElementById('buyBankNifty').style.display = 'none';
                     document.getElementById('paymentSuccessMessage').style.display = 'block';
 
-                    let url = product === "nifty" ? "https://example.com/nifty" : "https://in.tradingview.com/chart/BANKNIFTY/l6X7LkQu-BANKNIFTY-INSTITUTIONAL-LEVELS-FOR-17-12-2024/";
+                    let url = product === "nifty" ? "https://in.tradingview.com/chart/NIFTY/aLgQUDRz-NIFTY50-INSTITUTIONAL-LEVELS-FOR-17-12-2024/" : "https://in.tradingview.com/chart/BANKNIFTY/ZifZtrlC-BANKNIFTY-INSTITUTIONAL-LEVELS-FOR-16-12-2024/";
                     document.getElementById('successMessage').textContent = `Payment Successful! Your URL: ${url}`;
 
                     // Show the copy and open link buttons
